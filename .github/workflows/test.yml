@@ -9,13 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest] #[ubuntu-latest, macos-latest, windows-2016]
+        os: [ubuntu-latest] #[ubuntu-latest, macos-latest, windows-2016]
     steps:
-    - uses: actions/checkout@v1
-    - run: |
-        sudo sysctl kern.sysv.shmmax
-        sudo sysctl -w kern.sysv.shmall=655360
-        sudo sysctl -w kern.sysv.shmmax=125839605760
     - uses: AdoptOpenJDK/install-jdk@v1
       with:
         version: '15'
@@ -25,9 +20,9 @@ jobs:
         #source: 'https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u-2020-12-02-12-32/OpenJDK8U-jdk_x64_linux_hotspot_2020-12-02-12-32.tar.gz'
         #sourceType: 'url'
     - name: AQA
-      uses: sophia-guo/run-aqa@SPEC
+      uses: sophia-guo/run-aqa@lists
       with: 
         version: '15'
         jdksource: 'install-jdk'
-        build_list: 'functional'
+        build_list: 'functional/cmdLineTests,functional/cmdline_options_testresources'
         target: '_testSCCMLTests1_openj9'
